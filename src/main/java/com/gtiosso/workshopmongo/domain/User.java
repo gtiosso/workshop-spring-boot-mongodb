@@ -2,10 +2,19 @@ package com.gtiosso.workshopmongo.domain;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+// @Document = Informa para o Spring que esta entidade é uma Coleção do MongoDB
+// Por default o spring mapeia o Nome da coleção pelo nome da classe em letras minusculas,
+// ou seja, se a classe e a collection do mongo tiverem o mesmo nome
+// não há necessidade de informar o parametro abaixo
+@Document(collection = "user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id // Referencia no mongodb quem é o atributo chave (PK)
 	private String id;
 	private String name;
 	private String email;
