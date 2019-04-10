@@ -69,4 +69,15 @@ public class UserResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
+	// Criando a rota para deletar (DELETE) usuários expecificos
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	
+	// ReponseEntity = Encapsula toda a estrutura necessária
+	// para o retorno HTTP Completo (Cabeçalho, body...)
+	public ResponseEntity<Void> deleteById(@PathVariable String id){
+		
+		service.delete(id);	
+		return ResponseEntity.noContent().build();
+	}
 }
