@@ -1,7 +1,7 @@
 package com.gtiosso.workshopmongo.resources;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gtiosso.workshopmongo.domain.User;
+import com.gtiosso.workshopmongo.dto.UserDTO;
 import com.gtiosso.workshopmongo.services.UserService;
 
 
@@ -27,14 +28,14 @@ public class UserResource {
 	
 	// ReponseEntity = Encapsula toda a estrutura necessária
 	// para o retorno HTTP Completo (Cabeçalho, body...)
-	public ResponseEntity<List<User>> findAll(){
+	public ResponseEntity<List<UserDTO>> findAll(){
 		// Invocando o metodo findAll do Servico para coletar do banco de dados
 		List<User> list = service.findAll();
-		
+		List<UserDTO> listDto = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
 		// Instanciando o ResponseEntity
 		// .ok() = metodo que instancia o ResponseEntity com o codigo de resposta de sucesso
 		// .body() = define o corpo da resposta
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().body(listDto);
 	}
 
 }
