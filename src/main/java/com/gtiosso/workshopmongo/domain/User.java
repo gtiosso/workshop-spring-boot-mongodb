@@ -1,8 +1,11 @@
 package com.gtiosso.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 // @Document = Informa para o Spring que esta entidade é uma Coleção do MongoDB
@@ -18,6 +21,13 @@ public class User implements Serializable {
 	private String id;
 	private String name;
 	private String email;
+	
+	// Criando referencia para a collection Post no MongoDB
+	// Lazy = não carrega automaticamente todos os dados da coleção (neste caso posts)
+	// quando recupera um Usuario do banco de dados. Garante que os posts só serão carregados
+	// se eu explicitamente acessa-los
+	@DBRef(lazy=true)
+	private List<Post> posts = new ArrayList<>();
 
 	public User() {
 	}
@@ -52,6 +62,14 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
